@@ -3,10 +3,10 @@
 define('DIR',  pathinfo($_SERVER['SCRIPT_FILENAME'], PATHINFO_DIRNAME) . '/');
 
 function binarySearch ($file, $value) {
-  $text = fopen($file, 'r');
-  while (!feof($text)) {
-    $string = mb_convert_encoding(fgets($text), 'utf-8', 'cp1251');
-    $arr = explode('\xOA', $string);
+
+  if ($string = file_get_contents($file)) {
+    $stringEnc = mb_convert_encoding($string, 'utf-8', 'cp1251');
+    $arr = explode('\xOA', $stringEnc);
     array_pop($arr);
 
     foreach ($arr as $record) {
@@ -26,8 +26,9 @@ function binarySearch ($file, $value) {
         return $arrRec[$mid][1];
       }
     }
+    return 'undef';
   }
-  return 'undef';
+
 }
 
 $value = 'ключ5';
